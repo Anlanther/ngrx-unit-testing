@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "app_stories",
+  "info": {
+    "singularName": "app-story",
+    "pluralName": "app-stories",
+    "displayName": "App - Story"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "author": {
+      "type": "string"
+    }
+  }
+}

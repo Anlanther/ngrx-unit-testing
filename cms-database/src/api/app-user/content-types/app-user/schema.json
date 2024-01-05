@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "app_users",
+  "info": {
+    "singularName": "app-user",
+    "pluralName": "app-users",
+    "displayName": "App - User",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "favouriteStories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::app-story.app-story"
+    }
+  }
+}
