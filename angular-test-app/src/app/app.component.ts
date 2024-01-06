@@ -4,6 +4,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { AppStore } from './models/app-store.model';
 import { Story } from './models/story.model';
 import { User } from './models/user.model';
 import { AppActions } from './state/app.actions';
@@ -17,7 +18,7 @@ import { AppFeature } from './state/app.state';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  store = inject(Store);
+  store = inject(Store<AppStore>);
   userForm = new FormControl(null);
   userName = '';
   totalStories = 0;
@@ -28,8 +29,7 @@ export class AppComponent {
   nonFavouritedStories$: Observable<Story[]>;
 
   constructor() {
-    this.store.dispatch(AppActions.getUsers());
-    this.store.dispatch(AppActions.getStories());
+    this.store.dispatch(AppActions.loadApp());
 
     this.allUsers$ = this.store.select(AppFeature.selectAllUsers);
     this.activeUser$ = this.store.select(AppFeature.selectActiveUser);

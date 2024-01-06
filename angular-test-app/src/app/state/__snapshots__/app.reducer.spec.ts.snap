@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`[App] Get Users Success should update the state 1`] = `
+{
+  "activeUser": null,
+  "allStories": [],
+  "allUsers": [
+    {
+      "favouriteStories": [
+        {
+          "author": "Roald Dahl",
+          "title": "Matilda",
+        },
+      ],
+      "name": "John Doe",
+    },
+    {
+      "favouriteStories": [
+        {
+          "author": "Roald Dahl",
+          "title": "Fantastic Mr. Fox",
+        },
+      ],
+      "name": "Jane Doe",
+    },
+  ],
+}
+`;
