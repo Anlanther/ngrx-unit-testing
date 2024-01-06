@@ -3,12 +3,15 @@ import { SpyObject } from '@ngneat/spectator';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action, Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { cold, hot } from 'jest-marbles';
 import { Observable } from 'rxjs';
 import { AppStore } from '../models/app-store.model';
 import { Story } from '../models/story.model';
 import { User } from '../models/user.model';
 import { StoryDataService } from '../services/story/story-data.service';
 import { UserDataService } from '../services/user/user-data.service';
+import { AppActions } from './app.actions';
+import { loadApp$ } from './app.effect';
 import { AppFeature } from './app.state';
 
 describe('AppEffects', () => {
@@ -64,5 +67,17 @@ describe('AppEffects', () => {
       StoryDataService
     ) as SpyObject<StoryDataService>;
     mockStore = TestBed.inject(Store<AppStore>) as MockStore<AppStore>;
+  });
+
+  describe('loadApp$', () => {
+    it('should trigger getUsers and getStories action', () => {
+      mockActions$ = hot('-a', { a: AppActions.loadApp() });
+      const expected = cold('-(ab)', {
+        a: AppActions.getUsers(),
+        b: AppActions.getStories(),
+      });
+
+      expect(loadApp$).toBeObservable(expected);
+    });
   });
 });
