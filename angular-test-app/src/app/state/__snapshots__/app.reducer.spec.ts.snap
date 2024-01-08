@@ -26,3 +26,63 @@ exports[`[App] Get Users Success should update the state 1`] = `
   ],
 }
 `;
+
+exports[`AppReducer [App] Get Stories Success should update the state 1`] = `
+{
+  "activeUser": null,
+  "allStories": [
+    {
+      "author": "A1",
+      "title": "Story1",
+    },
+    {
+      "author": "A2",
+      "title": "Story2",
+    },
+    {
+      "author": "Roald Dahl",
+      "title": "Matilda",
+    },
+    {
+      "author": "Roald Dahl",
+      "title": "Fantastic Mr. Fox",
+    },
+  ],
+  "allUsers": [],
+}
+`;
+
+exports[`AppReducer [App] Get Users Success should update the state 1`] = `
+{
+  "activeUser": null,
+  "allStories": [],
+  "allUsers": [
+    {
+      "favouriteStories": [
+        {
+          "author": "Roald Dahl",
+          "title": "Matilda",
+        },
+      ],
+      "name": "John Doe",
+    },
+    {
+      "favouriteStories": [
+        {
+          "author": "Roald Dahl",
+          "title": "Fantastic Mr. Fox",
+        },
+      ],
+      "name": "Jane Doe",
+    },
+  ],
+}
+`;
+
+exports[`AppReducer [App] Set Active User should update the state 1`] = `
+{
+  "activeUser": null,
+  "allStories": [],
+  "allUsers": [],
+}
+`;

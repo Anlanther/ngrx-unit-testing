@@ -4,7 +4,7 @@ import { Story } from '../../models/story.model';
 import { User } from '../../models/user.model';
 import { DataService } from '../data.service';
 import { StrapiCollection } from '../models/strapi-collection.model';
-import { UserCollection } from '../models/user-collection.model copy';
+import { UserCollection } from '../models/user-collection.model';
 
 @Injectable({
   providedIn: 'root',

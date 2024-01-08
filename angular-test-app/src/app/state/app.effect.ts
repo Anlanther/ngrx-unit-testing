@@ -1,53 +1,60 @@
-import { inject } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { catchError, map, of, switchMap, tap } from 'rxjs';
 import { AppStore } from '../models/app-store.model';
+import { LoggerService } from '../services/logger/logger.service';
 import { StoryDataService } from '../services/story/story-data.service';
 import { UserDataService } from '../services/user/user-data.service';
 import { AppActions } from './app.actions';
 import { AppFeature } from './app.state';
 
-export const loadApp$ = createEffect(
-  (actions$ = inject(Actions)) =>
-    actions$.pipe(
+@Injectable()
+export class AppEffects {
+  constructor(
+    private actions$: Actions,
+    private userDataService: UserDataService,
+    private storyDataService: StoryDataService,
+    private loggerService: LoggerService,
+    private store: Store<AppStore>
+  ) {}
+
+  loadApp$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(AppActions.loadApp),
       switchMap(() => [AppActions.getUsers(), AppActions.getStories()])
-    ),
-  { functional: true }
-);
+    )
+  );
 
-export const getUsers$ = createEffect(
-  (actions$ = inject(Actions), userDataService = inject(UserDataService)) =>
-    actions$.pipe(
+  getUsers$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(AppActions.getUsers),
-      switchMap(() => userDataService.getUsers()),
+      switchMap(() => this.userDataService.getUsers()),
       map((users) => AppActions.getUsersSuccess(users)),
-      catchError((error) => of(AppActions.getUsersFailure(error)))
-    ),
-  { functional: true }
-);
+      catchError((error) => of(AppActions.getUsersFailure(error.message)))
+    )
+  );
 
-export const getStories$ = createEffect(
-  (actions$ = inject(Actions), storyDataService = inject(StoryDataService)) =>
-    actions$.pipe(
+  getStories$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(AppActions.getStories),
-      switchMap(() => storyDataService.getStories()),
+      switchMap(() => this.storyDataService.getStories()),
       map((stories) => AppActions.getStoriesSuccess(stories)),
-      catchError((error) => of(AppActions.getStoriesFailure(error)))
-    ),
-  { functional: true }
-);
-
-export const notification$ = createEffect(
-  (actions$ = inject(Actions), store = inject(Store<AppStore>)) =>
-    actions$.pipe(
-      concatLatestFrom(() => store.pipe(select(AppFeature.selectActiveUser))),
-      tap(([action, user]) =>
-        console.log(
-          `${user?.name ?? 'Unregistered'} - ${JSON.stringify(action.type)}`
-        )
+      catchError((error: HttpErrorResponse) =>
+        of(AppActions.getStoriesFailure(error.message))
       )
-    ),
-  { dispatch: false, functional: true }
-);
+    )
+  );
+
+  notification$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        concatLatestFrom(() =>
+          this.store.pipe(select(AppFeature.selectActiveUser))
+        ),
+        tap(([action, user]) => this.loggerService.log(user, action.type))
+      ),
+    { dispatch: false }
+  );
+}

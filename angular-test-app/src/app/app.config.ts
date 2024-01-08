@@ -8,14 +8,14 @@ import { routes } from './app.routes';
 import { AppFeature } from './state/app.state';
 
 import { provideHttpClient } from '@angular/common/http';
-import * as appEffects from './state/app.effect';
+import { AppEffects } from './state/app.effect';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideHttpClient(),
     provideStore({ [AppFeature.name]: AppFeature.reducer }),
-    provideEffects(appEffects),
+    provideEffects(AppEffects),
     provideStoreDevtools({ name: 'NGRX Unit Test App', maxAge: 15 }),
   ],
 };
