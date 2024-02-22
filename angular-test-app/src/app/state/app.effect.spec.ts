@@ -4,7 +4,7 @@ import {
   createServiceFactory,
 } from '@ngneat/spectator/jest';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Action, Store } from '@ngrx/store';
+import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jest-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -67,9 +67,7 @@ describe('AppEffects', () => {
     mockUserDataService = spectator.inject(UserDataService);
     mockStoryDataService = spectator.inject(StoryDataService);
     mockLoggerService = spectator.inject(LoggerService);
-    mockStore = spectator.inject(
-      Store<AppStore>
-    ) as unknown as MockStore<AppStore>;
+    mockStore = spectator.inject(MockStore);
   });
 
   describe('loadApp$', () => {
