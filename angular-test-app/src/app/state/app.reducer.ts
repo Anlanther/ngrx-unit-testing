@@ -7,16 +7,24 @@ export interface AppState {
   activeUser: User | null;
   allUsers: User[];
   allStories: Story[];
+  loading: boolean;
 }
 
 export const initialState: AppState = {
   activeUser: null,
   allUsers: [],
   allStories: [],
+  loading: true,
 };
 
 export const appReducer = createReducer<AppState>(
   initialState,
+  on(AppActions.loadApp, (state): AppState => {
+    return { ...state, loading: true };
+  }),
+  on(AppActions.loadComplete, (state): AppState => {
+    return { ...state, loading: false };
+  }),
   on(AppActions.getUsersSuccess, (state, action): AppState => {
     return { ...state, allUsers: action.users };
   }),

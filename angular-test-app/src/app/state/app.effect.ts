@@ -32,6 +32,7 @@ export class AppEffects {
       ofType(AppActions.getUsers),
       switchMap(() => this.userDataService.getUsers()),
       map((users) => AppActions.getUsersSuccess(users)),
+      tap(() => AppActions.loadComplete()),
       catchError((error) => of(AppActions.getUsersFailure(error.message)))
     )
   );

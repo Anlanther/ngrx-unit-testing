@@ -13,5 +13,6 @@ export const AppActions = createActionGroup({
     'Get Stories Success': (stories: Story[]) => ({ stories }),
     'Get Stories Failure': (error: string) => ({ error }),
     'Load App': emptyProps(),
+    'Load Complete': emptyProps(),
   },
 });

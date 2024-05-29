@@ -84,6 +84,8 @@ describe('AppEffects', () => {
 
   describe('getUsers$', () => {
     it('should call on the userDataService to get a list of users and trigger getUsersSuccess action', () => {
+      const storeSpy = jest.spyOn(mockStore, 'dispatch');
+
       mockActions$ = hot('-a', { a: AppActions.getUsers() });
       const expected = cold('-a', {
         a: AppActions.getUsersSuccess(mockUsers),
@@ -93,6 +95,7 @@ describe('AppEffects', () => {
       expect(spectator.service.getUsers$).toBeObservable(expected);
       spectator.service.getUsers$.subscribe(() => {
         expect(mockUserDataService.getUsers()).toHaveBeenCalled();
+        expect(storeSpy).toHaveBeenCalled();
       });
     });
     it('should trigger getUsersFailure action if the call to the userDataService fails', () => {
