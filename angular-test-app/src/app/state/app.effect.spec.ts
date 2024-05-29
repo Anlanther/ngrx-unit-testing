@@ -95,7 +95,7 @@ describe('AppEffects', () => {
       expect(spectator.service.getUsers$).toBeObservable(expected);
       spectator.service.getUsers$.subscribe(() => {
         expect(mockUserDataService.getUsers()).toHaveBeenCalled();
-        expect(storeSpy).toHaveBeenCalled();
+        expect(storeSpy).toHaveBeenCalledWith(AppActions.loadComplete());
       });
     });
     it('should trigger getUsersFailure action if the call to the userDataService fails', () => {
